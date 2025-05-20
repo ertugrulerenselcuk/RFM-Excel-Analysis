@@ -1,5 +1,5 @@
 # RFM-Excel-Analysis
-
+EXCEL FILES google drive link : https://docs.google.com/spreadsheets/d/1Y6915wKTMTDHMFVo4IYOpm0R9TS6bjGS/edit?usp=drive_link&ouid=102618739620148941630&rtpof=true&sd=true
 # 🛍️ RFM Analysis with Excel
 
 ## 📅 Recency: Time Since Last Purchase
@@ -60,6 +60,88 @@ Explanation:
 
 ![Final Frequency View]![abd81594-e002-4da6-bbd9-3e14c8c02866 png](https://github.com/user-attachments/assets/af4d6a48-c966-467f-8ffc-d554bb38e908)
 ()
+🔍 What is FREQUENCY?
+FREQUENCY refers to how many times a customer made a purchase within a given time period.
+
+✅ How Is It Calculated?
+Let’s consider a sample sales dataset:
+
+Customer ID	Invoice ID
+12346	INV001
+12347	INV002
+12347	INV003
+12347	INV004
+12348	INV005
+
+12346: made only 1 purchase → Frequency = 1
+
+12347: made 3 purchases → Frequency = 3
+
+12348: made 1 purchase → Frequency = 1
+
+To calculate this:
+
+Group the dataset by Customer ID
+
+Count how many times each customer appears = number of purchases
+
+📄 Example Excel Formula:
+excel
+Kopyala
+Düzenle
+=COUNTIF(CustomerColumn, [CustomerID])
+📌 Why Did We Duplicate by CUSTOMER ID?
+As seen in your second screenshot:
+
+The left column contains unique Customer IDs
+
+The right column shows their corresponding purchase frequency, calculated using COUNTIF
+
+To bring this back into the main dataset:
+
+Use VLOOKUP or INDEX-MATCH to map frequency back based on Customer ID
+
+🧠 Why Do We Do This?
+Because:
+
+Each row in the main table represents a transaction
+
+But FREQUENCY is a customer-level metric (how often they came)
+
+So we first calculate frequency per customer, and then merge it back to each transaction related to that customer
+
+🧪 Practical Example:
+Let’s say we have this data:
+
+Customer ID	Invoice ID
+111	A
+111	B
+222	C
+111	D
+222	E
+
+Excel Formula:
+excel
+Kopyala
+Düzenle
+=COUNTIF(A:A, A2)
+This gives us:
+
+Customer ID	Frequency
+111	3
+222	2
+
+Now, when you merge this frequency table back into your main dataset, each transaction row will also show how many times that customer has purchased in total.
+
+📌 Summary:
+FREQUENCY = Number of times a Customer ID appears (number of purchases)
+
+Calculated using COUNTIF
+
+Create a frequency list per customer
+
+Merge back into the main dataset using VLOOKUP or INDEX MATCH
+
 
 ---
 
@@ -76,3 +158,56 @@ Interpretation:
 - High = bulk or corporate buyers
 - Low = frequent small purchases
 
+🧺 What is Basket Size?
+Basket Size shows how much a customer spends on average per transaction.
+
+In other words:
+
+"How much does a customer spend in a single purchase on average?"
+
+📌 Formula:
+excel
+Kopyala
+Düzenle
+Basket Size = Monetary / Frequency
+Example:
+The customer has spent a total of 1000 TL (Monetary)
+
+And made 4 purchases (Frequency)
+
+👉 Basket Size = 1000 / 4 = 250 TL
+
+📈 Why Is It Useful?
+High basket size → The customer spends a large amount per visit. Could be a wholesaler or a corporate client.
+
+Low basket size → The customer shops more frequently but spends less per visit. Might be a discount chaser or a retail customer.
+
+This metric is highly useful for:
+
+Customer segmentation
+
+Targeted campaigns
+
+Loyalty analysis
+
+✅ Excel Application:
+From your example:
+
+Monetary	Frequency	Basket Size
+77.184	1	= 77.184
+4.310	7	≈ 0.6157...
+1.797	4	≈ 0.44925...
+
+Excel Formula:
+excel
+Kopyala
+Düzenle
+=E2 / D2
+(Assuming Monetary is in column E, and Frequency is in column D)
+
+🎯 Summary:
+Basket Size = Monetary / Frequency
+
+It tells the average amount spent per transaction
+
+Helps us understand customer spending behavior more clearly
